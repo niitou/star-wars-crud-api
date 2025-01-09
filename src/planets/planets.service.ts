@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreatePlanetInput } from './dto/create-planet.input';
 import { UpdatePlanetInput } from './dto/update-planet.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Planet } from './entities/planet.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PlanetsService {
-  create(createPlanetInput: CreatePlanetInput) {
-    return 'This action adds a new planet';
+  constructor(@InjectRepository(Planet) private planetRepository: Repository<Planet>) { }
+  async create(createPlanetInput: CreatePlanetInput) {
+    const planetData = await this.planetRepository.save(createPlanetInput);
+    return this.planetRepository.save(planetData)
   }
 
-  findAll() {
-    return `This action returns all planets`;
+ async findAll() {
+    return await this.planetRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} planet`;
+  async findOne(id: number) {
+    const planetData = await this.planetRepository.findOneBy({ id });
+    if(!planetData) throw new HttpException('Planet not found', 404)
+    return planetData
   }
 
-  update(id: number, updatePlanetInput: UpdatePlanetInput) {
-    return `This action updates a #${id} planet`;
+  async update(id: number, updatePlanetInput: UpdatePlanetInput) {
+    const existingPlanet = await this.planetRepository.findOneBy({id})
+    if(!existingPlanet) throw new HttpException('Planet not found', 404)
+
+    const planetData = this.planetRepository.merge(existingPlanet, updatePlanetInput)
+    return await this.planetRepository.save(planetData);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} planet`;
+  async remove(id: number) {
+    const planetData = await this.planetRepository.findOneBy({id})
+    if(!planetData) throw new HttpException('Planet not found', 404)
+
+    return await this.planetRepository.remove(planetData);
   }
 }

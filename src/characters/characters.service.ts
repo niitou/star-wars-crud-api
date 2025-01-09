@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { CreateCharacterInput } from './dto/create-character.input';
 import { UpdateCharacterInput } from './dto/update-character.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Character } from './entities/character.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CharactersService {
-  create(createCharacterInput: CreateCharacterInput) {
-    return 'This action adds a new character';
-  }
-
-  findAll() {
-    return `This action returns all characters`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} character`;
-  }
-
-  update(id: number, updateCharacterInput: UpdateCharacterInput) {
-    return `This action updates a #${id} character`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} character`;
-  }
+  constructor(
+    @InjectRepository(Character)
+    private characterRepository: Repository<Character>,
+  ) {}
+  async create(createcharacterInput: CreateCharacterInput) {
+      const characterData = await this.characterRepository.save(createcharacterInput);
+      return this.characterRepository.save(characterData)
+    }
+  
+   async findAll() {
+      return await this.characterRepository.find();
+    }
+  
+    async findOne(id: number) {
+      const characterData = await this.characterRepository.findOneBy({ id });
+      if(!characterData) throw new HttpException('Character not found', 404)
+      return characterData
+    }
+  
+    async update(id: number, updatecharacterInput: UpdateCharacterInput) {
+      const existingcharacter = await this.characterRepository.findOneBy({id})
+      if(!existingcharacter) throw new HttpException('Character not found', 404)
+  
+      const characterData = this.characterRepository.merge(existingcharacter, updatecharacterInput)
+      return await this.characterRepository.save(characterData);
+    }
+  
+    async remove(id: number) {
+      const characterData = await this.characterRepository.findOneBy({id})
+      if(!characterData) throw new HttpException('Character not found', 404)
+  
+      return await this.characterRepository.remove(characterData);
+    }
 }
