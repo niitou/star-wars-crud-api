@@ -7,6 +7,8 @@ import { CharactersModule } from './characters/characters.module';
 import { join } from 'path';
 import { PlanetsModule } from './planets/planets.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Planet } from './planets/entities/planet.entity';
+import { Character } from './characters/entities/character.entity';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require('dotenv').config({ path: __dirname + '/../.env' });
 
@@ -30,7 +32,7 @@ require('dotenv').config({ path: __dirname + '/../.env' });
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [],
+      entities: [Planet, Character],
       autoLoadEntities: true,
       logging: true,
       synchronize: true, // Disable on prod
