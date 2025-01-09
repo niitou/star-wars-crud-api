@@ -47,7 +47,7 @@ export class UpdatePlanetInput {
     name: string;
     diameter?: Nullable<number>;
     population?: Nullable<number>;
-    climate?: Nullable<string>;
+    climate?: Nullable<Nullable<string>[]>;
     terrain?: Nullable<Nullable<string>[]>;
 }
 
