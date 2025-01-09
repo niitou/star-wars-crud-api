@@ -1,0 +1,36 @@
+type Planet {
+  id: Int!
+  name: String!
+  diameter: Int
+  population: Int
+  climate: String
+  terrain: [String]
+}
+input CreatePlanetInput {
+  # Example field (placeholder)
+  name: String!
+  diameter: Int
+  population: Int
+  climate: String
+  terrain: [String]
+}
+
+input UpdatePlanetInput {
+  id: Int!
+  name: String!
+  diameter: Int
+  population: Int
+  climate: [String]
+  terrain: [String]
+}
+
+type Query {
+  planets: [Planet]!
+  planet(id: Int!): Planet
+}
+
+type Mutation {
+  createPlanet(createPlanetInput: CreatePlanetInput!): Planet!
+  updatePlanet(updatePlanetInput: UpdatePlanetInput!): Planet!
+  removePlanet(id: Int!): Planet
+}
