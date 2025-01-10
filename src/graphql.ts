@@ -24,7 +24,7 @@ export class CreateCharacterInput {
 }
 
 export class UpdateCharacterInput {
-    id: number;
+    id: string;
     name?: Nullable<string>;
     species?: Nullable<string>;
     gender?: Nullable<string>;
@@ -43,7 +43,7 @@ export class CreatePlanetInput {
 }
 
 export class UpdatePlanetInput {
-    id: number;
+    id: string;
     name: string;
     diameter?: Nullable<number>;
     population?: Nullable<number>;
@@ -52,7 +52,7 @@ export class UpdatePlanetInput {
 }
 
 export class Character {
-    id: number;
+    id: string;
     name: string;
     species?: Nullable<string>;
     gender?: Nullable<Gender>;
@@ -65,11 +65,11 @@ export class Character {
 export abstract class IQuery {
     abstract characters(): Nullable<Character>[] | Promise<Nullable<Character>[]>;
 
-    abstract character(id: number): Nullable<Character> | Promise<Nullable<Character>>;
+    abstract character(id: string): Nullable<Character> | Promise<Nullable<Character>>;
 
     abstract planets(): Nullable<Planet>[] | Promise<Nullable<Planet>[]>;
 
-    abstract planet(id: number): Nullable<Planet> | Promise<Nullable<Planet>>;
+    abstract planet(id: string): Nullable<Planet> | Promise<Nullable<Planet>>;
 }
 
 export abstract class IMutation {
@@ -77,17 +77,17 @@ export abstract class IMutation {
 
     abstract updateCharacter(updateCharacterInput: UpdateCharacterInput): Character | Promise<Character>;
 
-    abstract removeCharacter(id: number): Nullable<Character> | Promise<Nullable<Character>>;
+    abstract removeCharacter(id: string): Nullable<Character> | Promise<Nullable<Character>>;
 
     abstract createPlanet(createPlanetInput: CreatePlanetInput): Planet | Promise<Planet>;
 
     abstract updatePlanet(updatePlanetInput: UpdatePlanetInput): Planet | Promise<Planet>;
 
-    abstract removePlanet(id: number): Nullable<Planet> | Promise<Nullable<Planet>>;
+    abstract removePlanet(id: string): Nullable<Planet> | Promise<Nullable<Planet>>;
 }
 
 export class Planet {
-    id: number;
+    id: string;
     name: string;
     diameter?: Nullable<number>;
     population?: Nullable<number>;

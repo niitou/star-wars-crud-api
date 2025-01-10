@@ -1,6 +1,6 @@
 type Character {
   # Example field (placeholder)
-  id: Int!
+  id: ID!
   name: String!
   species: String
   gender: Gender
@@ -22,28 +22,28 @@ input CreateCharacterInput {
   gender: String
   height: Float
   weight: Int
-  homeworld: String
+  homeworld: ID
   description: String
 }
 
 input UpdateCharacterInput {
-  id: Int!
+  id: ID!
   name: String
   species: String
   gender: String
   height: Float
   weight: Int
-  homeworld: String
+  homeworld: ID
   description: String
 }
 
 type Query {
   characters: [Character]!
-  character(id: Int!): Character
+  character(id: ID!): Character
 }
 
 type Mutation {
   createCharacter(createCharacterInput: CreateCharacterInput!): Character!
   updateCharacter(updateCharacterInput: UpdateCharacterInput!): Character!
-  removeCharacter(id: Int!): Character
+  removeCharacter(id: ID!): Character
 }

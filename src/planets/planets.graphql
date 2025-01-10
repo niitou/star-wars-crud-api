@@ -1,5 +1,5 @@
 type Planet {
-  id: Int!
+  id: ID!
   name: String!
   diameter: Int
   population: Int
@@ -16,7 +16,7 @@ input CreatePlanetInput {
 }
 
 input UpdatePlanetInput {
-  id: Int!
+  id: ID!
   name: String!
   diameter: Int
   population: Int
@@ -26,11 +26,11 @@ input UpdatePlanetInput {
 
 type Query {
   planets: [Planet]!
-  planet(id: Int!): Planet
+  planet(id: ID!): Planet
 }
 
 type Mutation {
   createPlanet(createPlanetInput: CreatePlanetInput!): Planet!
   updatePlanet(updatePlanetInput: UpdatePlanetInput!): Planet!
-  removePlanet(id: Int!): Planet
+  removePlanet(id: ID!): Planet
 }
