@@ -4,15 +4,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 export enum CharacterGender {
-  MALE = 'Male',
-  FEMALE = 'Female',
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
 }
 
 @Entity()
@@ -43,9 +42,8 @@ export class Character {
   weight: number;
 
   @Field()
-  @OneToOne(() => Planet)
-  @JoinColumn()
-  planet: Planet;
+  @ManyToOne(() => Planet)
+  homeworld: Planet;
 
   @Field()
   @Column({ type: 'text' })
