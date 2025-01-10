@@ -37,6 +37,8 @@ require('dotenv').config({ path: __dirname + '/../.env' });
       logging: true,
       synchronize: true, // Disable on prod
     }),
+    PlanetsModule,
+    CharactersModule
   ],
   controllers: [AppController],
   providers: [AppService],
