@@ -1,5 +1,4 @@
 type Character {
-  # Example field (placeholder)
   id: ID!
   name: String!
   species: String
@@ -16,7 +15,6 @@ enum Gender {
 }
 
 input CreateCharacterInput {
-  # Example field (placeholder)
   name: String!
   species: String
   gender: String
@@ -37,13 +35,24 @@ input UpdateCharacterInput {
   description: String
 }
 
+type CharacterPayload {
+  id: ID
+  name: String
+  species: String
+  gender: Gender
+  height: Float
+  weight: Int
+  homeworld: ID
+  description: String
+}
+
 type Query {
   characters: [Character]!
   character(id: ID!): Character
 }
 
 type Mutation {
-  createCharacter(createCharacterInput: CreateCharacterInput!): Character!
-  updateCharacter(updateCharacterInput: UpdateCharacterInput!): Character!
+  createCharacter(createCharacterInput: CreateCharacterInput!): CharacterPayload!
+  updateCharacter(updateCharacterInput: UpdateCharacterInput!): CharacterPayload!
   removeCharacter(id: ID!): Character
 }

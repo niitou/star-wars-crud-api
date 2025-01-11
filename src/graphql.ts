@@ -44,10 +44,10 @@ export class CreatePlanetInput {
 
 export class UpdatePlanetInput {
     id: string;
-    name: string;
+    name?: Nullable<string>;
     diameter?: Nullable<number>;
     population?: Nullable<number>;
-    climate?: Nullable<Nullable<string>[]>;
+    climate?: Nullable<string>;
     terrain?: Nullable<Nullable<string>[]>;
 }
 
@@ -62,6 +62,17 @@ export class Character {
     description?: Nullable<string>;
 }
 
+export class CharacterPayload {
+    id?: Nullable<string>;
+    name?: Nullable<string>;
+    species?: Nullable<string>;
+    gender?: Nullable<Gender>;
+    height?: Nullable<number>;
+    weight?: Nullable<number>;
+    homeworld?: Nullable<string>;
+    description?: Nullable<string>;
+}
+
 export abstract class IQuery {
     abstract characters(): Nullable<Character>[] | Promise<Nullable<Character>[]>;
 
@@ -73,9 +84,9 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
-    abstract createCharacter(createCharacterInput: CreateCharacterInput): Character | Promise<Character>;
+    abstract createCharacter(createCharacterInput: CreateCharacterInput): CharacterPayload | Promise<CharacterPayload>;
 
-    abstract updateCharacter(updateCharacterInput: UpdateCharacterInput): Character | Promise<Character>;
+    abstract updateCharacter(updateCharacterInput: UpdateCharacterInput): CharacterPayload | Promise<CharacterPayload>;
 
     abstract removeCharacter(id: string): Nullable<Character> | Promise<Nullable<Character>>;
 
