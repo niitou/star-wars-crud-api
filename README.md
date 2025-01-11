@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A simple CRUD Star Wars API built using Nest, Typeorm, and Graphql
 
 ## Project setup
 
@@ -43,6 +43,12 @@ $ yarn run start:dev
 
 # production mode
 $ yarn run start:prod
+
+# graphql playground linux
+$ xdg-open {browser} localhost:3000/graphql
+
+# graphql playground windows
+$ start {browser} localhost:3000/graphql
 ```
 
 ## Run tests
