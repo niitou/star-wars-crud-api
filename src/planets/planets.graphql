@@ -7,7 +7,6 @@ type Planet {
   terrain: [String]
 }
 input CreatePlanetInput {
-  # Example field (placeholder)
   name: String!
   diameter: Int
   population: Int
@@ -17,10 +16,10 @@ input CreatePlanetInput {
 
 input UpdatePlanetInput {
   id: ID!
-  name: String!
+  name: String
   diameter: Int
   population: Int
-  climate: [String]
+  climate: String
   terrain: [String]
 }
 
