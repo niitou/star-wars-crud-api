@@ -4,18 +4,17 @@ import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CharactersModule } from './characters/characters.module';
-import { join } from 'path';
 import { PlanetsModule } from './planets/planets.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig from './config/database.config';
+import typeOrmConfig from './config/typeorm.config';
 import graphqlConfig from './config/graphql.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, graphqlConfig]
+      load: [typeOrmConfig, graphqlConfig]
     }),
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -24,7 +23,7 @@ import graphqlConfig from './config/graphql.config';
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => (configService.get('database'))
+      useFactory: async (configService: ConfigService) => (configService.get('typeorm'))
     }),
     PlanetsModule,
     CharactersModule
