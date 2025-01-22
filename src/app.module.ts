@@ -7,35 +7,24 @@ import { CharactersModule } from './characters/characters.module';
 import { join } from 'path';
 import { PlanetsModule } from './planets/planets.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Planet } from './planets/entities/planet.entity';
-import { Character } from './characters/entities/character.entity';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-require('dotenv').config({ path: __dirname + '/../.env' });
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import databaseConfig from './config/database.config';
+import graphqlConfig from './config/graphql.config';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      include: [CharactersModule, PlanetsModule],
-      typePaths: ['./**/*.graphql'],
-      playground: true,
-      debug: true,
-      definitions: {
-        path: join(process.cwd(), 'src/graphql.ts'),
-        outputAs: 'class',
-      },
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [databaseConfig, graphqlConfig]
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: [Planet, Character],
-      autoLoadEntities: true,
-      logging: true,
-      synchronize: true, // Disable on prod
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      inject : [ConfigService],
+      useFactory: async (configService: ConfigService) => (configService.get('graphql'))
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => (configService.get('database'))
     }),
     PlanetsModule,
     CharactersModule
@@ -43,4 +32,4 @@ require('dotenv').config({ path: __dirname + '/../.env' });
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
