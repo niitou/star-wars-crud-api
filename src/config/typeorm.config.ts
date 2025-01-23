@@ -1,7 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import { config as dotenvConfig } from 'dotenv';
-import { Character } from 'src/characters/entities/character.entity';
-import { Planet } from 'src/planets/entities/planet.entity';
+import { join } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 dotenvConfig({ path: '.env' });
@@ -13,8 +12,8 @@ const typeOrmConfig = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  migrations: ['src/migrations/*{.ts,.js}'],
+  entities: ['dist/**/*.entity.js'],
+  migrations: ['dist/migrations/*.js}'],
   migrationsRun: false,
   autoLoadEntities: true,
   logging: true,
