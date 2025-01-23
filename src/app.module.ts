@@ -7,6 +7,7 @@ import { CharactersModule } from './characters/characters.module';
 import { PlanetsModule } from './planets/planets.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HealthModule } from './health/health.module';
 import typeOrmConfig from './config/typeorm.config';
 import graphqlConfig from './config/graphql.config';
 
@@ -26,7 +27,8 @@ import graphqlConfig from './config/graphql.config';
       useFactory: async (configService: ConfigService) => (configService.get('typeorm'))
     }),
     PlanetsModule,
-    CharactersModule
+    CharactersModule,
+    HealthModule
   ],
   controllers: [AppController],
   providers: [AppService],
