@@ -13,8 +13,7 @@ const typeOrmConfig = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   entities: ['dist/**/*.entity.js'],
-  migrations: ['dist/migrations/*.js}'],
-  migrationsRun: false,
+  migrations: ['dist/migrations/*-migration.ts'],
   autoLoadEntities: true,
   logging: true,
   synchronize: false, // Disable on prod
