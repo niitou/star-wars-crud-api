@@ -14,6 +14,12 @@ enum Gender {
   FEMALE
 }
 
+type PaginatedCharacters {
+  characters: [Character!]!
+  count: Int!
+  pageInfo: PageInfo!
+}
+
 input CreateCharacterInput {
   name: String!
   species: String
@@ -46,9 +52,16 @@ type CharacterPayload {
   description: String
 }
 
+type PageInfo{
+  page: Int
+  hasNext: Boolean
+  hasPrevious: Boolean
+}
+
 type Query {
   characters: [Character]!
   character(id: ID!): Character
+  paginatedCharacters(page: Int = 1, limit: Int = 10) : PaginatedCharacters! 
 }
 
 type Mutation {

@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { CharactersService } from './characters.service';
 import { CreateCharacterInput } from './dto/create-character.input';
 import { UpdateCharacterInput } from './dto/update-character.input';
@@ -13,8 +13,16 @@ export class CharactersResolver {
   }
 
   @Query('characters')
-  findAll() {
+  findAll(){
     return this.charactersService.findAll();
+  }
+
+  @Query('paginatedCharacters')
+  findPaginated(
+    @Args('page', {type: () => Int, defaultValue: 1}) page : number,
+    @Args('limit', {type: () => Int, defaultValue: 10}) limit : number
+  ) {
+    return this.charactersService.findPaginated(page, limit)
   }
 
   @Query('character')

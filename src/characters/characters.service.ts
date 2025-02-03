@@ -16,8 +16,23 @@ export class CharactersService {
     return this.characterRepository.save(characterData)
   }
 
-  async findAll() {
-    return await this.characterRepository.find({ relations: ['homeworld'] });
+  async findAll(page: number = 1, limit: number = 10) {
+    return  await this.characterRepository.find({ relations: ['homeworld'] });
+  }
+
+  async findPaginated(page: number = 1, limit: number = 10) {
+    const characters =  await this.characterRepository.find({ relations: ['homeworld'] });
+    const start = (page - 1) * limit
+    const end = start + limit
+    return {
+      characters : characters.slice(start, end),
+      count : characters.length,
+      pageInfo : {
+        page: page,
+        hasPrevious: start > 0,
+        hasNext: end < characters.length
+      }
+    }
   }
 
   async findOne(id: number) {

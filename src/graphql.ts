@@ -62,6 +62,12 @@ export class Character {
     description?: Nullable<string>;
 }
 
+export class PaginatedCharacters {
+    characters: Character[];
+    count: number;
+    pageInfo: PageInfo;
+}
+
 export class CharacterPayload {
     id?: Nullable<string>;
     name?: Nullable<string>;
@@ -73,10 +79,18 @@ export class CharacterPayload {
     description?: Nullable<string>;
 }
 
+export class PageInfo {
+    page?: Nullable<number>;
+    hasNext?: Nullable<boolean>;
+    hasPrevious?: Nullable<boolean>;
+}
+
 export abstract class IQuery {
     abstract characters(): Nullable<Character>[] | Promise<Nullable<Character>[]>;
 
     abstract character(id: string): Nullable<Character> | Promise<Nullable<Character>>;
+
+    abstract paginatedCharacters(page?: Nullable<number>, limit?: Nullable<number>): PaginatedCharacters | Promise<PaginatedCharacters>;
 
     abstract planets(): Nullable<Planet>[] | Promise<Nullable<Planet>[]>;
 
